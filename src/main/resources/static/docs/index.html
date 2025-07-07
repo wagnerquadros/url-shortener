@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Documentação - URL Shortener</title>
+    <style>
+        body {
+          font-family: 'Segoe UI', sans-serif;
+          margin: 2rem auto;
+          max-width: 900px;
+          line-height: 1.6;
+          padding: 1rem;
+          color: #333;
+        }
+        h1, h2, h3 {
+          color: #1a73e8;
+        }
+        code {
+          background-color: #f5f5f5;
+          padding: 2px 4px;
+          border-radius: 4px;
+        }
+        pre {
+          background-color: #f5f5f5;
+          padding: 1em;
+          overflow-x: auto;
+          border-radius: 6px;
+        }
+        table {
+          width: 100%;
+          border-collapse: collapse;
+          margin: 1em 0;
+        }
+        th, td {
+          padding: 0.5em;
+          border: 1px solid #ccc;
+        }
+        th {
+          background-color: #eee;
+        }
+    </style>
+</head>
+<body>
+
+<h1>📄 Documentação da API - URL Shortener</h1>
+
+<p>Esta API permite encurtar URLs e redirecionar para a URL original.</p>
+
+<hr>
+
+<h2>🔗 POST /shorten</h2>
+<p><strong>Descrição:</strong> Cria uma nova URL encurtada com expiração em 24h.</p>
+
+<h3>📥 Requisição</h3>
+<p><strong>Content-Type:</strong> <code>application/json</code></p>
+
+<pre><code>{
+  "url": "https://www.exemplo.com"
+}</code></pre>
+
+<h3>📤 Resposta (200 OK)</h3>
+<pre><code>{
+  "shortUrl": "http://localhost:8080/abc123"
+}</code></pre>
+
+<hr>
+
+<h2>🔁 GET /{shortCode}</h2>
+<p><strong>Descrição:</strong> Redireciona para a URL original, se não estiver expirada.</p>
+
+<h3>✅ Exemplo</h3>
+<pre><code>GET http://localhost:8080/abc123</code></pre>
+
+<h3>🔄 Redirecionamento</h3>
+<ul>
+    <li><strong>Status:</strong> <code>302 FOUND</code></li>
+    <li><strong>Header:</strong> <code>Location: https://www.exemplo.com</code></li>
+</ul>
+
+<h3>❌ Quando inválido ou expirado</h3>
+<ul>
+    <li><strong>Status:</strong> <code>404 NOT FOUND</code></li>
+    <li><strong>Body:</strong> <code>Short URL not found or expired</code></li>
+</ul>
+
+<hr>
+
+<h2>📌 Observações</h2>
+<ul>
+    <li>Códigos curtos expiram em 24 horas automaticamente.</li>
+    <li>O redirecionamento é feito com base no cabeçalho <code>Location</code>.</li>
+    <li>A limpeza de links expirados é feita automaticamente a cada 1 hora.</li>
+</ul>
+
+</body>
+</html>
