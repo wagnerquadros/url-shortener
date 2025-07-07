@@ -153,7 +153,7 @@ GET http://localhost:8080/abc123
 ``
   Short URL not found or expired
 ``
-
+---
 ## 📁 Estrutura do Projeto
 
 ```Pastas
@@ -165,19 +165,25 @@ urlshortener/
 │       │       └── wagnerquadros/
 │       │           └── urlshortener/
 │       │               ├── controller/
-│       │               │   └── ShortUrlController.java
+│       │               │   ├── ShortUrlController.java
+│       │               │   └── RedirectToOriginalUrlController.java
 │       │               ├── dto/
-│       │               │   └── ShortenRequestDto.java
+│       │               │   ├── ShortenRequestDto.java
+│       │               │   ├── ShortUrlDetailsDto.java
+│       │               │   └── ErrorResponseDto.java
 │       │               ├── entity/
 │       │               │   └── ShortUrl.java
 │       │               ├── repository/
 │       │               │   └── ShortUrlRepository.java
-│       │               └── service/
-│       │                   └── ShortUrlService.java
+│       │               ├── service/
+│       │               │   └── ShortUrlService.java
+│       │               └── exception/
+│       │                   ├── GlobalExceptionHandler.java
+│       │                   └── ShortUrlNotFoundException.java
 │       └── resources/
 │           ├── application.properties
 │           └── static/docs/index.html
-├── pom.xml                   
+├── pom.xml
 └── README.md
 ```
 
