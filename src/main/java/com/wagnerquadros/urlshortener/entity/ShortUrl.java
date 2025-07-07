@@ -29,5 +29,4 @@ public class ShortUrl {
 
     @Column(name = "expiration", nullable = false)
     private LocalDateTime expiration;
-
 }

@@ -13,9 +13,6 @@
 
 ## 🚀 Funcionalidades
 
----
-
-
 - Criação de URLs encurtadas com código aleatório
 - Redirecionamento automático para a URL original
 - Expiração automática das URLs após 24 horas
@@ -26,7 +23,6 @@
 
 ## 🔧 Tecnologias utilizadas
 
----
 ![Java](https://img.shields.io/badge/Java-17-007396?style=for-the-badge&logo=java)
 ![Spring Boot](https://img.shields.io/badge/Spring%20Boot-3.5.3-6DB33F?style=for-the-badge&logo=spring-boot)
 ![PostgreSQL](https://img.shields.io/badge/PostgreSQL-15-4169E1?style=for-the-badge&logo=postgresql)
@@ -47,8 +43,6 @@
 
 ## 📦 Como rodar localmente
 
----
-
 ```bash
 # 1. Clone o repositório
 git clone https://github.com/seu-usuario/url-shortener.git
@@ -62,25 +56,19 @@ spring.datasource.password=sua_senha
 spring.jpa.hibernate.ddl-auto=update
 spring.jpa.show-sql=true
 
-
 # 3. Rode o projeto
 ./mvnw spring-boot:run
 ```
 
-
 # 📡 Endpoints da API - URL Shortener
-
----
 A seguir estão os endpoints disponíveis para uso da API de encurtador de URLs.
-
-
 
 ## 🔗 Criar URL Encurtada
 
 ## `POST /shorten`
 
 Cria uma nova URL encurtada válida por 24 horas.
-🧾 Requisição
+### 🧾 Requisição
     
 - URL: http://localhost:8080/shorten
 - Método: POST
@@ -92,13 +80,48 @@ Cria uma nova URL encurtada válida por 24 horas.
   "url": "https://www.exemplo.com"
 }
 ```
+
 ### ✅ Resposta de Sucesso
+- ### `Status: 200 ok`
 ```json
 {
     "shortUrl": "http://seulink.com/abc123"
 }
 ```
-- ### Status: 200 OK
+---
+
+## 🕵️‍♂️ Obter Detalhes da URL Encurtada
+## ``GET /shorten/{shortCode}/details``
+Retorna todas as informações de uma URL encurtada, incluindo se ela ainda está ativa ou já expirou.
+
+### 🧾 Requisição
+- URL: `http://localhost:8080/shorten/{shortCode}/details`
+- Parâmetros de caminho:
+
+  | Parâmetro | Tipo     | Obrigatório | Descrição               |
+  | --------- | -------- | ----------- | ----------------------- |
+  | shortCode | `string` | Sim         | Código da URL encurtada |
+
+### ✅ Resposta de Sucesso
+- ### `Status: 200 ok`
+```json
+{
+  "shortCode": "abc123",
+  "originalUrl": "https://www.exemplo.com",
+  "createdAt": "2025-07-07T18:30:00",
+  "expiration": "2025-07-08T18:30:00",
+  "expired": false
+}
+```
+### ❌ Erros
+- ### `Status: 404 Not Found`
+````json
+{
+  "error": "Short URL not found for code: abc123"
+}
+````
+
+---
 
 ## 🔁 Redirecionar para a URL Original
 ## `GET /{shortCode}`
@@ -121,19 +144,17 @@ GET http://localhost:8080/abc123
 ```
 
 ### ✅ Resposta de Sucesso
-- Status: 302 Found
+- ### `Status: 302 Found`
 - Cabeçalho: Location: https://www.exemplo.com
 
-### ❌ Exemplo de Erro
-- Status: 404 Not Found
+### ❌ Erros
+- ### `Status: 404 Not Found`
 - Corpo da resposta:
 ``
   Short URL not found or expired
 ``
 
 ## 📁 Estrutura do Projeto
-
----
 
 ```Pastas
 urlshortener/
@@ -160,11 +181,7 @@ urlshortener/
 └── README.md
 ```
 
-
-
 # 📄 Licença
-
----
 
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 
@@ -172,8 +189,6 @@ Este projeto está licenciado sob a Licença MIT.
 Consulte o arquivo [LICENSE](LICENSE) para mais detalhes.
 
 ## 👨‍💻 Desenvolvido por
-
----
 
 [![GitHub - wagnerquadros](https://img.shields.io/badge/GitHub-wagnerquadros-181717?logo=github)](https://github.com/wagnerquadros)
 

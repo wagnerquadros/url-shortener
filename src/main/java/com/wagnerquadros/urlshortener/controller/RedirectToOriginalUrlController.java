@@ -1,5 +1,7 @@
 package com.wagnerquadros.urlshortener.controller;
 
+import com.wagnerquadros.urlshortener.entity.ShortUrl;
+import com.wagnerquadros.urlshortener.exception.ShortUrlNotFoundException;
 import com.wagnerquadros.urlshortener.service.ShortUrlService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
@@ -17,11 +19,11 @@ public class RedirectToOriginalUrlController {
 
     @GetMapping("/{shortCode}")
     public ResponseEntity<?> redirectToOriginalUrl(@PathVariable String shortCode) {
-        return service.getValidUrl(shortCode)
-                .map(url -> ResponseEntity.status(HttpStatus.FOUND)
-                        .header(HttpHeaders.LOCATION, url.getOriginalUrl())
-                        .build())
-                .orElseGet(() -> ResponseEntity.status(HttpStatus.NOT_FOUND)
-                        .body("Short URL not found or expired"));
+        ShortUrl url = service.getValidUrl(shortCode)
+                .orElseThrow(() -> new ShortUrlNotFoundException(shortCode));
+
+        return ResponseEntity.status(HttpStatus.FOUND)
+                .header(HttpHeaders.LOCATION, url.getOriginalUrl())
+                .build();
     }
 }

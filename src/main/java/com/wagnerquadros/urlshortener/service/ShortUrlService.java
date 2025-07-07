@@ -1,11 +1,12 @@
 package com.wagnerquadros.urlshortener.service;
 
+import com.wagnerquadros.urlshortener.dto.ShortUrlDetailsDto;
 import com.wagnerquadros.urlshortener.entity.ShortUrl;
+import com.wagnerquadros.urlshortener.exception.ShortUrlNotFoundException;
 import com.wagnerquadros.urlshortener.repository.ShortUrlRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
-
 import java.time.LocalDateTime;
 import java.util.Optional;
 import java.util.UUID;
@@ -47,4 +48,20 @@ public class ShortUrlService {
         repository.deleteAllByExpirationBefore(LocalDateTime.now());
         System.out.println("Expired URLs removed at: " + LocalDateTime.now());
     }
+
+    public ShortUrlDetailsDto getUrlDetails(String shortCode) {
+        ShortUrl url = repository.findByShortCode(shortCode)
+                .orElseThrow(() -> new ShortUrlNotFoundException(shortCode));
+
+        boolean expired = url.getExpiration().isBefore(LocalDateTime.now());
+
+        return new ShortUrlDetailsDto(
+                url.getShortCode(),
+                url.getOriginalUrl(),
+                url.getCreatedAt(),
+                url.getExpiration(),
+                expired
+        );
+    }
+
 }
